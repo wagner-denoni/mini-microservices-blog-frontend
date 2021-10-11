@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-web-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-web
+  template:
+    metadata:
+      labels:
+        app: blog-web
+    spec:
+      containers:
+        - name: posts
+          image: wagnerdenoni/blog-comments-ms
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-web-clusterip-srv
+spec:
+  selector:
+    app: blog-web
+  ports:
+    - name: blog-web
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
